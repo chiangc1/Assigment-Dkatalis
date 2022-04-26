@@ -46,6 +46,7 @@ public class CheckoutSteps {
 
 	@And("Click continue")
 	public void click_continue() throws InterruptedException {
+		driver.switchTo().frame("snap-midtrans");
 		driver.findElement(By.xpath("//*[@id=\"application\"]/div[1]/a[@href='#/select-payment']")).click();
 		Thread.sleep(2000);
 	}
@@ -66,13 +67,15 @@ public class CheckoutSteps {
 
 	@And("Click Pay Now")
 	public void click_Pay_Now() throws InterruptedException {
-		driver.findElement(By.xpath("//*[@id=\"application\"]/div[1]/a/div[1]")).click();	
+		driver.findElement(By.xpath("//*[@id=\"application\"]/div[1]/a")).click();	
 		Thread.sleep(2000);
 	}
 
-	@And("user enters {int}")
-	public void user_enters(String bankOTP) {
-		driver.findElement(By.xpath("//*[@id=\"PaRes\"]")).sendKeys(bankOTP);
+	@And("user enters {string}")
+	public void user_enters(String bankOTP) throws InterruptedException {
+		driver.switchTo().frame(0);
+		driver.findElement(By.xpath("//*[@id=\"PaRes\"]")).sendKeys(bankOTP);	
+		Thread.sleep(2000);
 	}
 
 	@When("Click ok")
@@ -83,5 +86,7 @@ public class CheckoutSteps {
 
 	@Then("Back to home page")
 	public void back_to_home_page() {
+		driver.close();
+		driver.quit();
 	}
 }
