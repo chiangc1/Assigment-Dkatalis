@@ -17,3 +17,4 @@ Feature: Feature to Checkout "Pillow"
     Examples: 
       | Payment Type                | Card Number      			| Expiry Date | CVV Number | Bank OTP |
       | Success Credit Card Payment | '4811 1111 1111 1114' | '12/24'     |    '123'	 | '112233' |
+      | Failed Credit Card Payment  | '4911 1111 1111 1113' | '02/20'     |    '123'	 | '112233' |

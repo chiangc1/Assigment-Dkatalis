@@ -1,13 +1,18 @@
 package Main;
 
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.By.ByClassName;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import io.cucumber.java.en.*;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+
+
 
 public class CheckoutSteps {
 	WebDriver driver = null;
@@ -59,10 +64,11 @@ public class CheckoutSteps {
 
 
 	@When("user enters the {string}, {string}, {string}")
-	public void user_enters_the_Card_number(String cardNumber, String expiryDate, String cvvPass) {
+	public void user_enters_the_Card_number(String cardNumber, String expiryDate, String cvvPass) throws InterruptedException {
 		driver.findElement(By.xpath("//*[@id=\"application\"]/div[3]/div/div/div/form/div[2]/div[1]/input")).sendKeys(cardNumber);
 		driver.findElement(By.xpath("//*[@id=\"application\"]/div[3]/div/div/div/form/div[2]/div[2]/input")).sendKeys(expiryDate);
 		driver.findElement(By.xpath("//*[@id=\"application\"]/div[3]/div/div/div/form/div[2]/div[3]/input")).sendKeys(cvvPass);
+		Thread.sleep(2000);
 	}
 
 	@And("Click Pay Now")
@@ -72,10 +78,14 @@ public class CheckoutSteps {
 	}
 
 	@And("user enters {string}")
-	public void user_enters(String bankOTP) throws InterruptedException {
-		driver.switchTo().frame(0);
-		driver.findElement(By.xpath("//*[@id=\"PaRes\"]")).sendKeys(bankOTP);	
-		Thread.sleep(2000);
+	public void user_enters(String bankOTP) throws InterruptedException  {
+		try {
+			driver.switchTo().frame(0);
+			driver.findElement(By.xpath("//*[@id=\"PaRes\"]")).sendKeys(bankOTP);	
+			Thread.sleep(2000);
+		} catch (NoSuchElementException e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	@When("Click ok")
