@@ -1,5 +1,8 @@
 package Main;
 
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
@@ -52,7 +55,7 @@ public class CheckoutSteps {
 	@And("Click continue")
 	public void click_continue() throws InterruptedException {
 		driver.switchTo().frame("snap-midtrans");
-		driver.findElement(By.xpath("//*[@id=\"application\"]/div[1]/a[@href='#/select-payment']")).click();
+		driver.findElement(By.xpath("//*[@id=\"application\"]/div[1]/a")).click();
 		Thread.sleep(2000);
 	}
 
@@ -67,6 +70,11 @@ public class CheckoutSteps {
 	public void user_enters_the_Card_number(String cardNumber, String expiryDate, String cvvPass) throws InterruptedException {
 		driver.findElement(By.xpath("//*[@id=\"application\"]/div[3]/div/div/div/form/div[2]/div[1]/input")).sendKeys(cardNumber);
 		driver.findElement(By.xpath("//*[@id=\"application\"]/div[3]/div/div/div/form/div[2]/div[2]/input")).sendKeys(expiryDate);
+		if (driver.findElement(By.xpath("//*[@id=\"application\"]/div[3]/div/div/div/form/div[2]/div[2][@class=\"input-group col-xs-7 error\"]")).isDisplayed()) {
+			driver.close();
+			driver.quit();
+			throw new NoSuchElementException();
+		}
 		driver.findElement(By.xpath("//*[@id=\"application\"]/div[3]/div/div/div/form/div[2]/div[3]/input")).sendKeys(cvvPass);
 		Thread.sleep(2000);
 	}
@@ -78,14 +86,10 @@ public class CheckoutSteps {
 	}
 
 	@And("user enters {string}")
-	public void user_enters(String bankOTP) throws InterruptedException  {
-		try {
-			driver.switchTo().frame(0);
-			driver.findElement(By.xpath("//*[@id=\"PaRes\"]")).sendKeys(bankOTP);	
-			Thread.sleep(2000);
-		} catch (NoSuchElementException e) {
-	        e.printStackTrace();
-	    }
+	public void user_enters(String bankOTP) throws InterruptedException, NoSuchElementException {
+		driver.switchTo().frame(0);
+		driver.findElement(By.xpath("//*[@id=\"PaRes\"]")).sendKeys(bankOTP);	
+		Thread.sleep(2000);
 	}
 
 	@When("Click ok")
