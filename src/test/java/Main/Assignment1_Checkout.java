@@ -17,7 +17,7 @@ import io.cucumber.junit.CucumberOptions;
 
 
 
-public class CheckoutSteps {
+public class Assignment1_Checkout {
 	WebDriver driver = null;
 	
 	@Given("Browser is open")
