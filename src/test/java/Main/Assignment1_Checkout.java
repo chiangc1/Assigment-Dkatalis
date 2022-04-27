@@ -70,13 +70,14 @@ public class Assignment1_Checkout {
 	public void user_enters_the_Card_number(String cardNumber, String expiryDate, String cvvPass) throws InterruptedException {
 		driver.findElement(By.xpath("//*[@id=\"application\"]/div[3]/div/div/div/form/div[2]/div[1]/input")).sendKeys(cardNumber);
 		driver.findElement(By.xpath("//*[@id=\"application\"]/div[3]/div/div/div/form/div[2]/div[2]/input")).sendKeys(expiryDate);
-		if (driver.findElement(By.xpath("//*[@id=\"application\"]/div[3]/div/div/div/form/div[2]/div[2][@class=\"input-group col-xs-7 error\"]")).isDisplayed()) {
+		String temp = driver.findElement(By.xpath("//*[@id=\"application\"]/div[3]/div/div/div/form/div[2]/div[2]")).getAttribute("class");
+		if (temp.equals("input-group col-xs-7 error")) {
 			driver.close();
 			driver.quit();
 			throw new NoSuchElementException();
 		}
 		driver.findElement(By.xpath("//*[@id=\"application\"]/div[3]/div/div/div/form/div[2]/div[3]/input")).sendKeys(cvvPass);
-		Thread.sleep(2000);
+		Thread.sleep(2000);	
 	}
 
 	@And("Click Pay Now")

@@ -28,6 +28,7 @@ public class Assignment2_CompareJSON {
 		File file2 = new File(projectPath+"/src/test/resources/File/url2.txt");
 		Scanner sc2 = new Scanner(file2);
 		
+		//Looping for all line in the file
 		while (sc1.hasNextLine() && sc2.hasNextLine()) {
 			String url1 = sc1.nextLine();
 			String url2 = sc2.nextLine();
